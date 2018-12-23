@@ -27,7 +27,7 @@ public class AutoPlayerTest {
         all_board[2][4].setBackground(Color.BLUE);
 
         autoPlayer.playStep();
-        //next generation selected test
+        //next generation selected test alive and die
         Assert.assertEquals(all_board[1][3].isSelected(), true);
         Assert.assertEquals(all_board[2][2].isSelected(), false);
 
