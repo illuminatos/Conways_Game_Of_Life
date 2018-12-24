@@ -13,6 +13,13 @@ public class GuiFrame {
 
     public GuiFrame(){
 
+        createMainFrame();
+
+    }
+
+    //create main game frame and adding other panels
+    public void createMainFrame() {
+
         jFrame = new JFrame("Game OF Life");
         jFrame.setSize(width,height);
         jFrame.setDefaultCloseOperation(jFrame.EXIT_ON_CLOSE);
@@ -23,9 +30,7 @@ public class GuiFrame {
         gameBoard = new GameBoard();
         jFrame.add(gameBoard.getGameBoard(), BorderLayout.CENTER);
         menuBar.setGameBoard(gameBoard);
-        //jFrame.pack();
         jFrame.setVisible(true);
-
     }
 
     public MenuBar getMenuBar() {

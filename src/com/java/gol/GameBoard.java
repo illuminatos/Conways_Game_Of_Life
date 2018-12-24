@@ -15,10 +15,18 @@ public class GameBoard implements ActionListener {
     Thread gameThread;
 
     public GameBoard(){
+        createPanel();
+        createButtons();
+    }
+
+    private void createPanel() {
         jPanel = new JPanel();
         jPanel.setBackground(Color.gray);
         jPanel.setLayout(new GridLayout(TABLE_SIZE,TABLE_SIZE,0,0));
+    }
 
+    //Creating GUI buttons table for the game
+    public void createButtons() {
         jButtonCells = new JButton[TABLE_SIZE][TABLE_SIZE];
         for(int i=0; i<TABLE_SIZE; i++){
             for(int j=0; j<TABLE_SIZE; j++){
@@ -30,7 +38,6 @@ public class GameBoard implements ActionListener {
                 jPanel.add(jButtonCells[i][j]);
             }
         }
-        
     }
 
     public JComponent getGameBoard(){

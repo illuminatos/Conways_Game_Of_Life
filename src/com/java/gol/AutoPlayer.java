@@ -42,36 +42,23 @@ public class AutoPlayer implements Runnable {
 
         JButton[][] all_board_buttons = this.board.getjButtonCells();
         int size = all_board_buttons.length;
-        
-        for(int i = 0; i < size; i++) {
-        	for(int j = 0; j < size; j++) {
-        		if(all_board_buttons[i][j].isSelected()) {
-        			gameBoard[i+1][j+1] = true;
-        			all_board_buttons[i][j].setSelected(false);
-        			all_board_buttons[i][j].setBackground(Color.WHITE);
-        		}
-        	}
-        }
 
-        // counting neighbors with iterate array of whole button table
+		mapCells(gameBoard, all_board_buttons, size);
+
+		// counting neighbors with iterate array of whole button table
         for (int i=1; i<gameBoard.length-1; i++) {
             for (int j=1; j<gameBoard[0].length-1; j++) {
                 int surrounding = 0;
-                if (gameBoard[i-1][j-1]) { surrounding++; }
-                if (gameBoard[i-1][j])   { surrounding++; }
-                if (gameBoard[i-1][j+1]) { surrounding++; }
-                if (gameBoard[i][j-1])   { surrounding++; }
-                if (gameBoard[i][j+1])   { surrounding++; }
-                if (gameBoard[i+1][j-1]) { surrounding++; }
-                if (gameBoard[i+1][j])   { surrounding++; }
-                if (gameBoard[i+1][j+1]) { surrounding++; }
-                if (gameBoard[i][j]) {
+
+				surrounding = countLivingNeighbours(gameBoard, i, j, surrounding);
+
+				if (gameBoard[i][j]) {
 
             		// 4 . Survival: Each live cell with either two or three live neighbors will remain alive for the next generation.
                 	if ((surrounding == 2) || (surrounding == 3)) {
                 		all_board_buttons[i-1][j-1].setSelected(true);
                 		all_board_buttons[i-1][j-1].setBackground(Color.BLUE);
-                    } 
+                    }
                 } else {
             		// 1 . Births: Each dead cell adjacent to exactly three live neighbors will become live in the next generation.
                 	if (surrounding == 3) {
@@ -83,7 +70,33 @@ public class AutoPlayer implements Runnable {
             }
         }
 	}
-	
+
+	private int countLivingNeighbours(boolean[][] gameBoard, int i, int j, int surrounding) {
+		if (gameBoard[i-1][j-1]) { surrounding++; }
+		if (gameBoard[i-1][j])   { surrounding++; }
+		if (gameBoard[i-1][j+1]) { surrounding++; }
+		if (gameBoard[i][j-1])   { surrounding++; }
+		if (gameBoard[i][j+1])   { surrounding++; }
+		if (gameBoard[i+1][j-1]) { surrounding++; }
+		if (gameBoard[i+1][j])   { surrounding++; }
+		if (gameBoard[i+1][j+1]) { surrounding++; }
+		return surrounding;
+	}
+
+	// assign true to all_board_buttons living cells in the gameBoard boolean array
+	private void mapCells(boolean[][] gameBoard, JButton[][] all_board_buttons, int size) {
+		for(int i = 0; i < size; i++) {
+			for(int j = 0; j < size; j++) {
+				if(all_board_buttons[i][j].isSelected()) {
+					gameBoard[i+1][j+1] = true;
+					all_board_buttons[i][j].setSelected(false);
+					all_board_buttons[i][j].setBackground(Color.WHITE);
+				}
+			}
+		}
+	}
+
+
 	public boolean validatePosition(int x, int y) {
 		return x >= 0 && y >= 0 && x < GameBoard.TABLE_SIZE && y < GameBoard.TABLE_SIZE;
 	}

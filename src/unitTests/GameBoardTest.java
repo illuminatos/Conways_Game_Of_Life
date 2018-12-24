@@ -26,29 +26,29 @@ public class GameBoardTest {
     @Test
     public void pauseTest() {
 
-        autoPlayer.setCurrState(1);
+        autoPlayer.setCurrState(AutoPlayer.PLAYING);
         int state = autoPlayer.getCurrState();
+        Assert.assertEquals(AutoPlayer.PLAYING, state);
+
         gameBoard.pause();
-        Assert.assertEquals(autoPlayer.getCurrState(), state);
+
+        state = autoPlayer.getCurrState();
+        Assert.assertEquals(AutoPlayer.PAUSED, state);
     }
 
     @Test
     public void resetBoardTest() {
-
-        JButton[][] testCells = new JButton[50][50];
-        for (int i = 0; i < 50; i++) {
-            for (int j = 0; j < 50; j++) {
-                testCells[i][j] = new JButton();
-                testCells[i][j].setBackground(Color.white);
-                testCells[i][j].setSize(10, 10);
-            }
-        }
+        JButton[][] cells = gameBoard.getjButtonCells();
+        cells[0][0].setBackground(Color.BLUE);
+        cells[0][1].setBackground(Color.BLUE);
+        cells[0][2].setBackground(Color.BLUE);
 
         gameBoard.resetBoard();
+
         Color initialBackGroundColor = Color.WHITE;
         for (int i = 0; i < 50; i++) {
             for (int j = 0; j < 50; j++) {
-                Assert.assertEquals(testCells[i][j].getBackground(), initialBackGroundColor);
+                Assert.assertEquals(cells[i][j].getBackground(), initialBackGroundColor);
             }
         }
     }

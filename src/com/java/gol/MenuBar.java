@@ -14,53 +14,46 @@ public class MenuBar implements ActionListener {
     private GameBoard gameBoard;
 
     public MenuBar(){
-
         jPanel = new JPanel();
 
-        jb_play = new JButton("Play");
-        jb_play.addActionListener(this);
+        createAndAddButtons(jPanel);
+    }
 
-        jb_pause = new JButton("Pause");
-        jb_pause.addActionListener(this);
-        jb_pause.setEnabled(false);
+    //create panel and game buttons
+    public void createAndAddButtons(JPanel jPanel) {
+        createButton(jPanel, jb_play, "Play");
+        createButton(jPanel, jb_pause, "Pause");
+        createButton(jPanel, jb_reset, "Exit");
+    }
 
-        jb_reset = new JButton("Reset");
-        jb_reset.addActionListener(this);
-
-        jb_exit = new JButton("Exit");
-        jb_exit.addActionListener(this);
-
-        jPanel.add(jb_play);
-        jPanel.add(jb_pause);
-        jPanel.add(jb_reset);
-        jPanel.add(jb_exit);
-
+    private void createButton(JPanel panel, JButton button, String button_name) {
+        button = new JButton(button_name);
+        button.addActionListener(this);
+        panel.add(button);
     }
 
     public JComponent getMenuBar(){
         return jPanel;
     }
-  
+
+    //setting buttons duty and visibility through the game
     @Override
     public void actionPerformed(ActionEvent e) {
-
         if(e.getSource().equals(jb_exit)){
             System.exit(0);
         }else if(e.getSource().equals(jb_play)){
-        	 jb_reset.setEnabled(true);
              jb_pause.setEnabled(true);
              jb_play.setEnabled(false);
              this.gameBoard.play();
-        }else if(e.getSource().equals(jb_pause)){
-        	 jb_reset.setEnabled(true);
+        } else {
+             // if button is either reset or pause button
              jb_pause.setEnabled(false);
              jb_play.setEnabled(true);
-             this.gameBoard.pause();
-        }else if(e.getSource().equals(jb_reset)){
-            jb_reset.setEnabled(true);
-            jb_pause.setEnabled(false);
-            jb_play.setEnabled(true);
-            gameBoard.resetBoard();
+             if(e.getSource().equals(jb_reset)) {
+                 gameBoard.resetBoard();
+             } else {
+                 this.gameBoard.pause();
+             }
         }
     }
     

@@ -12,52 +12,46 @@ import com.java.gol.*;
 public class AutoPlayerTest {
 
     GameBoard gameBoard = new GameBoard();
-
     AutoPlayer autoPlayer = new AutoPlayer(gameBoard);
 
     @Test
     public void playStepSelectedTest() {
-
         JButton[][] all_board = gameBoard.getjButtonCells();
-        all_board[2][2].setSelected(true);
-        all_board[2][2].setBackground(Color.BLUE);
-        all_board[2][3].setSelected(true);
-        all_board[2][3].setBackground(Color.BLUE);
-        all_board[2][4].setSelected(true);
-        all_board[2][4].setBackground(Color.BLUE);
+
+        setButtonProps(all_board[2][2], true);
+        setButtonProps(all_board[2][3], true);
+        setButtonProps(all_board[2][4], true);
 
         autoPlayer.playStep();
         //next generation selected test alive and die
         Assert.assertEquals(all_board[1][3].isSelected(), true);
         Assert.assertEquals(all_board[2][2].isSelected(), false);
-
     }
 
     @Test
     public void playStepColorTest() {
-
         JButton[][] all_board = gameBoard.getjButtonCells();
-        all_board[2][2].setSelected(true);
-        all_board[2][2].setBackground(Color.BLUE);
-        all_board[2][3].setSelected(true);
-        all_board[2][3].setBackground(Color.BLUE);
-        all_board[2][4].setSelected(true);
-        all_board[2][4].setBackground(Color.BLUE);
+        setButtonProps(all_board[2][2], true);
+        setButtonProps(all_board[2][3], true);
+        setButtonProps(all_board[2][4], true);
 
-        //next generation^s color test
-        Color initialBackGroundColor = all_board[1][3].getBackground();
-        Assert.assertEquals(all_board[1][3].getBackground(),initialBackGroundColor);
+        autoPlayer.playStep();
 
-        Color initialBackGroundColor2 = all_board[1][2].getBackground();
-        Assert.assertEquals(all_board[1][2].getBackground(),initialBackGroundColor2);
-
+        //next generation selected test alive and die
+        Assert.assertEquals(all_board[1][3].getBackground(), Color.BLUE);
+        Assert.assertEquals(all_board[2][2].getBackground(), Color.WHITE);
     }
 
+    // setting up button properties
+    private void setButtonProps(JButton button, boolean is_selected) {
+        button.setSelected(is_selected);
+        button.setBackground(Color.BLUE);
+    }
 
     @Test
     public void shouldThrowInterruptedException() {
         autoPlayer.setCurrState(1);
         autoPlayer.run();
-       }
+    }
 
 }
